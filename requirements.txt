@@ -1,0 +1,16 @@
+flask==3.0.3
+python-dotenv==1.0.1
+# LLM / Embeddings
+cohere==5.11.0
+google-generativeai==0.8.3
+# Numerical / Data processing
+numpy==1.26.4
+pandas==2.2.3
+# ML utilities / similarity
+scikit-learn==1.5.2
+# NLP / matching
+rapidfuzz==3.9.7
+# Optional vector indexing
+faiss-cpu==1.8.0
+# Production server
+gunicorn==22.0.0
