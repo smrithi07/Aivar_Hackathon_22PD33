@@ -1,0 +1,122 @@
+[
+  {
+    "id": "paraphrase_employee_compensation_001",
+    "type": "paraphrased",
+    "text": "Hey, so Cassian Vane just hit his one-year mark over in Quantum Logistics on April fifteenth, having started back in twenty-twenty-three under Zephyr Vance. During his yearly chat, they noted his base pay is sitting comfortably around one hundred fifteen grand, plus he just pulled in a bonus of roughly twelve and a half thousand bucks for the quarter.",
+    "source_doc_id": "employee_compensation_001"
+  },
+  {
+    "id": "paraphrase_customer_financial_records_001",
+    "type": "paraphrased",
+    "text": "So I was looking over Dorian Sterling's credit file and saw they're pulling in roughly eighty-five grand a year. They've got a credit line of about fifteen thousand with a balance sitting around thirty-five hundred, and their risk score is sitting comfortably at seven-fifteen.",
+    "source_doc_id": "customer_financial_records_001"
+  },
+  {
+    "id": "paraphrase_corporate_transactions_001",
+    "type": "paraphrased",
+    "text": "So basically, back in mid-October of twenty-twenty-three, Zenith Holdings bought up some assets from QuantumSphere Dynamics. It was an international stock deal worth roughly one and a half million bucks, and Thaddeus Thorne gave the green light on the payment plan and compliance stuff.",
+    "source_doc_id": "corporate_transactions_001"
+  },
+  {
+    "id": "paraphrase_internal_financial_reports_001",
+    "type": "paraphrased",
+    "text": "So I was looking over Meridian Dynamics' latest financial review, and they pulled in roughly 4.85 million in revenue with about 3.12 million in expenses, leaving them with a solid net profit of around 1.73 million. Moving into the upcoming fiscal cycle, management is feeling pretty optimistic and is projecting an expansion of about fourteen and a half percent thanks to their growing regional footprint.",
+    "source_doc_id": "internal_financial_reports_001"
+  },
+  {
+    "id": "paraphrase_confidential_deal_information_001",
+    "type": "paraphrased",
+    "text": "Hey, so Project Falcon's buyout of Veltro Industries is moving forward nicely. They landed on a valuation of about one hundred twenty million bucks, though the final price tag is settling around ten five. Assuming the board's cool with the upcoming supply chain savings, we should be ready to announce the whole thing by mid-November twenty twenty-four.",
+    "source_doc_id": "confidential_deal_information_001"
+  },
+  {
+    "id": "borderline_employee_compensation_002",
+    "type": "borderline",
+    "text": "It looks like some of the quality assurance paperwork finally went through this week.",
+    "source_doc_id": "employee_compensation_002"
+  },
+  {
+    "id": "borderline_customer_financial_records_002",
+    "type": "borderline",
+    "text": "We just wrapped up that credit risk review from earlier today.",
+    "source_doc_id": "customer_financial_records_002"
+  },
+  {
+    "id": "borderline_corporate_transactions_002",
+    "type": "borderline",
+    "text": "It looks like the corporate team finally wrapped up that big acquisition paperwork this week.",
+    "source_doc_id": "corporate_transactions_002"
+  },
+  {
+    "id": "borderline_internal_financial_reports_002",
+    "type": "borderline",
+    "text": "It sounded like the recent executive review went over some interesting financial updates.",
+    "source_doc_id": "internal_financial_reports_002"
+  },
+  {
+    "id": "borderline_confidential_deal_information_002",
+    "type": "borderline",
+    "text": "It looks like the corporate development team has been wrapping up another major acquisition discussion lately.",
+    "source_doc_id": "confidential_deal_information_002"
+  },
+  {
+    "id": "normal_01",
+    "type": "normal",
+    "text": "Creating a personal budget begins with tracking your monthly income and categorizing all essential versus discretionary expenses. Setting realistic spending limits helps you consistently save a portion of your earnings for future goals and unexpected emergencies. Regularly reviewing and adjusting your financial plan ensures you stay on track as your lifestyle and priorities evolve.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_02",
+    "type": "normal",
+    "text": "When central banks adjust interest rates, stock markets typically experience immediate volatility as investors reevaluate corporate borrowing costs and future profitability. Higher rates often pressure equity valuations by offering attractive alternative yields in fixed-income assets, whereas lower rates generally stimulate market growth by encouraging business investment and consumer spending.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_03",
+    "type": "normal",
+    "text": "Compound interest is a powerful financial concept where you earn returns not just on your initial money, but also on the accumulated earnings from previous periods. Over time, this compounding effect causes your wealth to grow at an accelerating rate. Starting your investment journey early gives this exponential growth process more time to work in your favor.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_04",
+    "type": "normal",
+    "text": "The financial technology sector is increasingly focusing on embedded finance solutions, allowing non-financial platforms to offer seamless payment and lending services directly to their users. Additionally, artificial intelligence is driving a major shift toward hyper-personalized banking experiences and automated fraud detection systems. Regulatory compliance technologies are also gaining significant traction as firms adapt to evolving global standards for digital assets and data privacy.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_05",
+    "type": "normal",
+    "text": "Mutual funds and exchange-traded funds both pool money from multiple investors to purchase a diversified portfolio of assets. However, mutual funds are only priced and traded once a day after the market closes, whereas ETFs trade continuously throughout the trading day like individual stocks. Additionally, ETFs often feature lower investment minimums and distinct tax efficiencies compared to traditional mutual funds.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_06",
+    "type": "normal",
+    "text": "When general price levels rise across the economy, the purchasing power of everyday currency gradually declines. Consequently, households often find themselves paying more for essential goods like groceries and energy, leaving them with less disposable income for discretionary purchases. This shift in purchasing behavior typically forces consumers to prioritize needs over wants, altering overall market demand.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_07",
+    "type": "normal",
+    "text": "A frequent error many cardholders make is only paying the minimum amount due each month, which leads to accumulating high interest charges over time. Additionally, failing to monitor monthly statements closely can result in overlooking recurring subscription fees or unauthorized transactions. Treating plastic money as extra income rather than a short-term loan often creates long-term debt struggles.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_08",
+    "type": "normal",
+    "text": "Central banks play a critical role in maintaining economic stability by managing the money supply and setting benchmark interest rates. Through these monetary policy tools, they aim to control inflation and support sustainable employment growth across the broader economy. Additionally, they act as lenders of last resort to commercial banks during periods of financial stress to ensure the overall payment system remains secure.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_09",
+    "type": "normal",
+    "text": "When reviewing a quarterly earnings report, start by examining the income statement to compare total revenue and net income against analyst expectations. Next, check the balance sheet to assess the company's current debt levels and liquidity reserves for signs of financial stability. Finally, read the management discussion and analysis section for valuable insights into future growth strategies and potential market risks.",
+    "source_doc_id": null
+  },
+  {
+    "id": "normal_10",
+    "type": "normal",
+    "text": "Cryptocurrency offers investors the potential for high returns and portfolio diversification through exposure to innovative digital assets. However, this market is also characterized by extreme price volatility and regulatory uncertainty, which can lead to significant financial losses. Therefore, participants must carefully weigh these high-risk factors against their overall investment strategy and risk tolerance.",
+    "source_doc_id": null
+  }
+]

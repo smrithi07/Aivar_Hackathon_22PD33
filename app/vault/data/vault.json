@@ -1,0 +1,190 @@
+[
+  {
+    "doc_id": "employee_compensation_001",
+    "category": "employee_compensation",
+    "entity_name": "Cassian Vane",
+    "document_text": "Cassian Vane celebrated his one-year anniversary with the Quantum Logistics department, having originally joined the firm on 2023-04-15 under the supervision of manager Zephyr Vance. During his annual performance review, it was noted that his base salary of $115,000 remains well-aligned with industry standards, supplemented this quarter by a performance bonus of $12,500.",
+    "fields": {
+      "salary": 115000,
+      "bonus": 12500,
+      "department": "Quantum Logistics",
+      "manager": "Zephyr Vance",
+      "joining_date": "2023-04-15"
+    },
+    "field_sensitivity": {
+      "salary": "high",
+      "bonus": "high",
+      "department": "low",
+      "manager": "low",
+      "joining_date": "medium"
+    }
+  },
+  {
+    "doc_id": "employee_compensation_002",
+    "category": "employee_compensation",
+    "entity_name": "Zephyrine Vance",
+    "document_text": "Internal compensation review for Zephyrine Vance indicates a base salary of $108,000 within the Quality Assurance department, reporting directly to Thaddeus Thorne. Having completed her probation following her joining date of 2022-03-15, she has also been approved for an annual performance bonus of $9,800.",
+    "fields": {
+      "salary": 108000,
+      "bonus": 9800,
+      "department": "Quality Assurance",
+      "manager": "Thaddeus Thorne",
+      "joining_date": "2022-03-15"
+    },
+    "field_sensitivity": {
+      "salary": "high",
+      "bonus": "high",
+      "department": "low",
+      "manager": "low",
+      "joining_date": "medium"
+    }
+  },
+  {
+    "doc_id": "customer_financial_records_001",
+    "category": "customer_financial_records",
+    "entity_name": "Dorian Sterling",
+    "document_text": "Internal credit review for Dorian Sterling indicates a verified annual income of $85,000 alongside a current credit limit of $15,000. The account currently maintains an outstanding balance of $3,450. Based on recent repayment behavior and credit bureau inquiries, the assigned risk score is 715.",
+    "fields": {
+      "income": 85000,
+      "credit_limit": 15000,
+      "outstanding_balance": 3450,
+      "risk_score": 715
+    },
+    "field_sensitivity": {
+      "income": "high",
+      "credit_limit": "high",
+      "outstanding_balance": "high",
+      "risk_score": "medium"
+    }
+  },
+  {
+    "doc_id": "customer_financial_records_002",
+    "category": "customer_financial_records",
+    "entity_name": "Evelyn Vance",
+    "document_text": "An internal risk assessment conducted for Evelyn Vance indicates an annual income of $98,500 paired with a current outstanding balance of $12,450. Based on these financials and an established credit limit of $35,000, the automated underwriting system has assigned this account a risk score of 42.",
+    "fields": {
+      "income": 98500,
+      "credit_limit": 35000,
+      "outstanding_balance": 12450,
+      "risk_score": 42
+    },
+    "field_sensitivity": {
+      "income": "high",
+      "credit_limit": "high",
+      "outstanding_balance": "high",
+      "risk_score": "medium"
+    }
+  },
+  {
+    "doc_id": "corporate_transactions_001",
+    "category": "corporate_transactions",
+    "entity_name": "Zenith Holdings",
+    "document_text": "On October 12, 2023, Zenith Holdings executed a strategic asset acquisition with QuantumSphere Dynamics for a transaction_amount of $1,450,000. The transaction_type for this deal was classified as a cross-border equity transfer. The payment schedule and compliance review were formally signed off by internal auditor Thaddeus Thorne.",
+    "fields": {
+      "transaction_amount": 1450000,
+      "client": "QuantumSphere Dynamics",
+      "transaction_type": "cross-border equity transfer",
+      "date": "2023-10-12",
+      "approver": "Thaddeus Thorne"
+    },
+    "field_sensitivity": {
+      "transaction_amount": "high",
+      "client": "medium",
+      "transaction_type": "low",
+      "date": "low",
+      "approver": "low"
+    }
+  },
+  {
+    "doc_id": "corporate_transactions_002",
+    "category": "corporate_transactions",
+    "entity_name": "Quantum Crest",
+    "document_text": "Internal memo confirming the successful execution of an equity buyout for Quantum Crest valued at $4,250,000 on November 14, 2023. The transaction type was designated as a strategic asset acquisition, which received final authorization from Director Alistair Thorne.",
+    "fields": {
+      "transaction_amount": 4250000,
+      "client": "Quantum Crest",
+      "transaction_type": "strategic asset acquisition",
+      "date": "2023-11-14",
+      "approver": "Alistair Thorne"
+    },
+    "field_sensitivity": {
+      "transaction_amount": "high",
+      "client": "medium",
+      "transaction_type": "low",
+      "date": "low",
+      "approver": "low"
+    }
+  },
+  {
+    "doc_id": "internal_financial_reports_001",
+    "category": "internal_financial_reports",
+    "entity_name": "Meridian Dynamics",
+    "document_text": "During the recent fiscal review, Meridian Dynamics reported a total revenue of $4,850,000 against operating expenses of $3,120,000, yielding a solid net profit of $1,730,000. Looking ahead to the next fiscal cycle, leadership maintains a strong growth_forecast of 14.5% based on our expanding regional portfolio.",
+    "fields": {
+      "revenue": 4850000,
+      "expenses": 3120000,
+      "profit": 1730000,
+      "growth_forecast": "14.5%"
+    },
+    "field_sensitivity": {
+      "revenue": "high",
+      "expenses": "high",
+      "profit": "high",
+      "growth_forecast": "medium"
+    }
+  },
+  {
+    "doc_id": "internal_financial_reports_002",
+    "category": "internal_financial_reports",
+    "entity_name": "Kaelen Forge",
+    "document_text": "During the recent fiscal review for Kaelen Forge, the executive board noted a total revenue of $1,450,000 against operating expenses of $920,000, yielding a solid net profit of $530,000. Looking ahead to the upcoming fiscal year, the leadership team maintains a confident growth forecast of 11.2% driven by new product expansions.",
+    "fields": {
+      "revenue": 1450000,
+      "expenses": 920000,
+      "profit": 530000,
+      "growth_forecast": "11.2%"
+    },
+    "field_sensitivity": {
+      "revenue": "high",
+      "expenses": "high",
+      "profit": "high",
+      "growth_forecast": "medium"
+    }
+  },
+  {
+    "doc_id": "confidential_deal_information_001",
+    "category": "confidential_deal_information",
+    "entity_name": "Veltro Industries",
+    "document_text": "Project Falcon is proceeding with our acquisition of Veltro Industries, highlighted by an agreed valuation of $120,000,000 and a final acquisition_price of $105,000,000. We anticipate the announcement_date will be set for November 14, 2024, once the board reviews the expected_synergy regarding supply chain consolidation.",
+    "fields": {
+      "acquisition_price": 105000000,
+      "valuation": 120000000,
+      "expected_synergy": "supply chain consolidation",
+      "announcement_date": "2024-11-14"
+    },
+    "field_sensitivity": {
+      "acquisition_price": "high",
+      "valuation": "high",
+      "expected_synergy": "medium",
+      "announcement_date": "medium"
+    }
+  },
+  {
+    "doc_id": "confidential_deal_information_002",
+    "category": "confidential_deal_information",
+    "entity_name": "Nebula BioSystems",
+    "document_text": "Project Phoenix involves the planned acquisition of Nebula BioSystems with an agreed acquisition_price of $420,000,000, which reflects a strong overall valuation of $550,000,000 based on our Q3 financial models. Leadership anticipates achieving an expected_synergy of approximately $85 million in operational cost savings post-merger. The official announcement_date is slated for December 5, 2024, pending final regulatory clearance.",
+    "fields": {
+      "acquisition_price": 420000000,
+      "valuation": 550000000,
+      "expected_synergy": "$85 million in operational cost savings",
+      "announcement_date": "2024-12-05"
+    },
+    "field_sensitivity": {
+      "acquisition_price": "high",
+      "valuation": "high",
+      "expected_synergy": "medium",
+      "announcement_date": "medium"
+    }
+  }
+]

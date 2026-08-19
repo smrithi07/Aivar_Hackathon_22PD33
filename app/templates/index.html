@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Semantic DLP Gateway</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    max-width: 720px;
+    margin: 48px auto;
+    padding: 0 16px;
+    color: #1a1a1a;
+    background: #fafafa;
+  }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  p.subtitle { color: #666; margin-top: 0; font-size: 14px; }
+  textarea {
+    width: 100%;
+    height: 140px;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+  button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background: #1a1a1a;
+    color: white;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  #result { margin-top: 24px; }
+  .badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+  .ALLOW { background: #d4edda; color: #155724; }
+  .REVIEW { background: #fff3cd; color: #856404; }
+  .BLOCK { background: #f8d7da; color: #721c24; }
+  .detail-box {
+    margin-top: 16px;
+    padding: 16px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .detail-box code { background: #f0f0f0; padding: 1px 5px; border-radius: 4px; }
+  .error { color: #721c24; background: #f8d7da; padding: 12px; border-radius: 8px; }
+</style>
+</head>
+<body>
+  <h1>Semantic DLP Gateway</h1>
+  <p class="subtitle">Paste any text below to check it for semantic data leakage against the protected finance vault.</p>
+
+  <textarea id="inputText" placeholder="e.g. An employee named Cassian earns roughly one hundred fifteen thousand dollars a year..."></textarea>
+  <br>
+  <button id="checkBtn" onclick="checkText()">Check for Leakage</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function checkText() {
+      const text = document.getElementById("inputText").value.trim();
+      const resultDiv = document.getElementById("result");
+      const btn = document.getElementById("checkBtn");
+
+      if (!text) {
+        resultDiv.innerHTML = '<div class="error">Please enter some text first.</div>';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Checking...";
+      resultDiv.innerHTML = "";
+
+      try {
+        const resp = await fetch("/score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          resultDiv.innerHTML = `<div class="error">Error: ${data.error || "Unknown error"}</div>`;
+          return;
+        }
+
+        const top = data.top_match;
+        const matchedFields = top.matched_fields.length
+          ? top.matched_fields.map(f => `<code>${f}</code>`).join(" ")
+          : "<em>none</em>";
+
+        resultDiv.innerHTML = `
+          <div class="badge ${data.decision}">${data.decision}</div>
+          <div class="detail-box">
+            <div><strong>Risk score:</strong> ${data.overall_risk_score.toFixed(3)}</div>
+            <div><strong>Closest matching document:</strong> ${top.doc_id} (${top.entity_name})</div>
+            <div><strong>Similarity:</strong> ${top.similarity_score} &nbsp; | &nbsp;
+                 <strong>Fact match:</strong> ${top.fact_match_score} &nbsp; | &nbsp;
+                 <strong>LLM leak score:</strong> ${top.llm_leak_score}</div>
+            <div><strong>Matched fields:</strong> ${matchedFields}</div>
+          </div>
+        `;
+      } catch (err) {
+        resultDiv.innerHTML = `<div class="error">Request failed: ${err.message}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Check for Leakage";
+      }
+    }
+  </script>
+</body>
+</html>

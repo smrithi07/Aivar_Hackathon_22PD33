@@ -14,6 +14,10 @@ class Config:
     VAULT_PATH = os.path.join(
         os.path.dirname(__file__), "vault", "data", "vault.json"
     )
+    AUDIT_LOG_PATH = os.environ.get(
+        "AUDIT_LOG_PATH",
+        os.path.join(os.path.dirname(__file__), "audit", "data", "audit_log.jsonl"),
+    )
 
 
 def validate_config():
