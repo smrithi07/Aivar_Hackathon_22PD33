@@ -298,6 +298,23 @@
       padding: 22px;
     }
 
+    .history-header {
+      display: grid;
+      grid-template-columns: 70px 1fr 2fr 56px 60px;
+      gap: 12px;
+      padding: 0 12px;
+      margin-top: 16px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .history-header span:last-child {
+      text-align: right;
+    }
+
     .history-list {
       display: flex;
       flex-direction: column;
@@ -669,6 +686,9 @@
           <h2 class="panel-title">Recent decisions</h2>
           <p class="panel-subtitle">Latest inspection activity from the audit log</p>
         </div>
+      </div>
+      <div class="history-header">
+        <span>Decision</span><span>Entity</span><span>Matched fields</span><span>Risk</span><span>Time</span>
       </div>
       <div id="historyList" class="history-list">
         <p class="empty">Loading activity...</p>
