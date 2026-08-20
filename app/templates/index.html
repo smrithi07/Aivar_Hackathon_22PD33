@@ -1,91 +1,645 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Semantic DLP Gateway</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<style>
-  :root { --ink:#e9eef5; --muted:#8d9aaa; --dim:#5d6a7a; --line:rgba(177,196,216,.14); --panel:rgba(19,27,38,.84); --canvas:#0b1118; --teal:#55d6be; --teal-soft:rgba(85,214,190,.12); --amber:#f4b860; --red:#ff746c; }
-  * { box-sizing:border-box; }
-  body { margin:0; min-width:320px; color:var(--ink); background:var(--canvas); font-family:"DM Sans",sans-serif; line-height:1.5; }
-  body::before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.34; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:48px 48px; mask-image:linear-gradient(to bottom,black,transparent 78%); }
-  button,textarea { font:inherit; } button { cursor:pointer; }
-  .shell { position:relative; max-width:1380px; margin:0 auto; padding:28px 32px 56px; }
-  .topbar { display:flex; align-items:center; gap:20px; margin-bottom:44px; }
-  .brand { display:flex; align-items:center; gap:13px; } .brand-mark { display:grid; place-items:center; width:38px; height:38px; color:var(--canvas); background:var(--teal); border-radius:11px; font-family:"Space Grotesk",sans-serif; font-weight:700; box-shadow:0 0 28px rgba(85,214,190,.22); }
-  .brand-name { font-family:"Space Grotesk",sans-serif; font-size:17px; font-weight:700; letter-spacing:-.3px; } .brand-note { color:var(--muted); font-size:12px; }
-  .intro { max-width:790px; margin-bottom:30px; } .eyebrow { margin:0 0 13px; color:var(--teal); font-size:11px; font-weight:700; letter-spacing:1.7px; text-transform:uppercase; }
-  h1 { max-width:700px; margin:0; font-family:"Space Grotesk",sans-serif; font-size:clamp(38px,5vw,66px); line-height:.98; letter-spacing:-3px; } .lede { max-width:610px; margin:18px 0 0; color:var(--muted); font-size:16px; }
-  .layout { display:grid; grid-template-columns:minmax(0,1fr); gap:18px; align-items:start; } .panel { background:var(--panel); border:1px solid var(--line); border-radius:16px; box-shadow:0 18px 50px rgba(0,0,0,.16); backdrop-filter:blur(12px); }
-  .composer { padding:20px; } .panel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:18px; } .panel-title { margin:0; font-family:"Space Grotesk",sans-serif; font-size:16px; } .panel-subtitle { margin:4px 0 0; color:var(--muted); font-size:12px; } .shortcut { color:var(--dim); font-size:11px; white-space:nowrap; }
-  textarea { width:100%; min-height:220px; padding:17px; color:var(--ink); background:#0e161f; border:1px solid var(--line); border-radius:11px; outline:none; resize:vertical; font-size:14px; line-height:1.65; transition:border-color .2s,box-shadow .2s; } textarea:focus { border-color:rgba(85,214,190,.7); box-shadow:0 0 0 3px var(--teal-soft); } textarea::placeholder { color:#607084; }
-  .composer-foot { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:14px; } .char-count { color:var(--dim); font-size:12px; } .primary { display:inline-flex; align-items:center; gap:9px; padding:11px 16px; color:#071411; background:var(--teal); border:0; border-radius:9px; font-weight:700; transition:transform .2s,background .2s; } .primary:hover { background:#78e6d2; transform:translateY(-1px); } .primary:disabled { cursor:wait; opacity:.6; transform:none; } .arrow { font-size:17px; line-height:0; }
-  .examples { display:flex; flex-wrap:wrap; gap:8px; margin-top:15px; } .example { padding:7px 10px; color:var(--muted); background:transparent; border:1px solid var(--line); border-radius:7px; font-size:11px; } .example:hover { color:var(--ink); border-color:rgba(85,214,190,.5); }
-  .mini-badge { padding:3px 6px; border-radius:5px; font-size:9px; font-weight:700; letter-spacing:.6px; } .mini-badge.ALLOW { color:var(--teal); background:var(--teal-soft); } .mini-badge.REVIEW { color:var(--amber); background:rgba(244,184,96,.12); } .mini-badge.BLOCK { color:var(--red); background:rgba(255,116,108,.12); } .empty { color:var(--dim); font-size:12px; }
-  #result { grid-column:1 / -1; } .result-panel { padding:22px; animation:rise .35s ease both; } @keyframes rise { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } } .result-top { display:flex; align-items:center; justify-content:space-between; gap:18px; padding-bottom:19px; border-bottom:1px solid var(--line); } .result-kicker { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:1.4px; } .decision { display:flex; align-items:center; gap:9px; margin-top:5px; font-family:"Space Grotesk",sans-serif; font-size:30px; font-weight:700; letter-spacing:-1px; } .decision.ALLOW { color:var(--teal); } .decision.REVIEW { color:var(--amber); } .decision.BLOCK { color:var(--red); } .decision-dot { width:10px; height:10px; border-radius:50%; background:currentColor; box-shadow:0 0 0 4px rgba(85,214,190,.1); } .interpretation { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:19px; padding:14px; background:rgba(255,255,255,.025); border:1px solid var(--line); border-radius:10px; } .interpretation-item { min-width:0; } .interpretation-label { color:var(--muted); font-size:11px; } .interpretation-value { overflow:hidden; margin-top:4px; color:var(--ink); font-size:13px; text-overflow:ellipsis; white-space:nowrap; } .interpretation-value.safe { color:var(--teal); } .analysis-note { color:var(--dim); font-size:10px; }
-  .score-ring { display:grid; place-items:center; width:82px; height:82px; border:1px solid var(--teal); border-radius:50%; color:var(--ink); font-family:"Space Grotesk",sans-serif; font-size:20px; box-shadow:inset 0 0 22px rgba(85,214,190,.1); } .score-ring span { display:block; margin-top:-3px; color:var(--dim); font-family:"DM Sans",sans-serif; font-size:9px; text-align:center; }
-  .detail-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; padding-top:19px; } .detail { min-width:0; } .detail-label { color:var(--muted); font-size:11px; } .detail-value { overflow:hidden; margin-top:5px; color:var(--ink); font-size:13px; text-overflow:ellipsis; white-space:nowrap; }
-  .bars { display:grid; gap:10px; margin-top:22px; } .bar-row { display:grid; grid-template-columns:125px 1fr 42px; align-items:center; gap:10px; color:var(--muted); font-size:11px; } .bar-track { height:6px; overflow:hidden; background:#25313e; border-radius:99px; } .bar-fill { height:100%; background:var(--teal); border-radius:inherit; }
-  .error { padding:14px; color:#ffaaa4; background:rgba(255,116,108,.1); border:1px solid rgba(255,116,108,.22); border-radius:10px; font-size:13px; } .footer { margin-top:32px; color:var(--dim); font-size:11px; }
-  @media (max-width:800px) { .shell { padding:22px 17px 42px; } .topbar { margin-bottom:34px; } .layout { grid-template-columns:1fr; } #result { grid-column:auto; } .detail-grid { grid-template-columns:1fr 1fr; } .interpretation { grid-template-columns:1fr; } }
-  @media (max-width:500px) { .brand-note,.shortcut { display:none; } h1 { font-size:42px; letter-spacing:-2px; } .lede { font-size:14px; } .composer-foot { align-items:flex-start; flex-direction:column; } .primary { width:100%; justify-content:center; } .result-top { align-items:flex-start; } .score-ring { width:70px; height:70px; font-size:17px; } .bar-row { grid-template-columns:105px 1fr 35px; } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Semantic DLP Gateway</title> ̰
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --ink: #e9eef5;
+      --muted: #8d9aaa;
+      --dim: #5d6a7a;
+      --line: rgba(177, 196, 216, .14);
+      --panel: rgba(19, 27, 38, .84);
+      --canvas: #0b1118;
+      --teal: #55d6be;
+      --teal-soft: rgba(85, 214, 190, .12);
+      --amber: #f4b860;
+      --red: #ff746c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.5;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .34;
+      background-image: linear-gradient(rgba(255, 255, 255, .025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 78%);
+    }
+
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .shell {
+      position: relative;
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 28px 32px 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 44px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      color: var(--canvas);
+      background: var(--teal);
+      border-radius: 11px;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      box-shadow: 0 0 28px rgba(85, 214, 190, .22);
+    }
+
+    .brand-name {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -.3px;
+    }
+
+    .brand-note {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .intro {
+      max-width: 790px;
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      margin: 0 0 13px;
+      color: var(--teal);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.7px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(38px, 5vw, 66px);
+      line-height: .98;
+      letter-spacing: -3px;
+    }
+
+    .lede {
+      max-width: 610px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, .16);
+      backdrop-filter: blur(12px);
+    }
+
+    .composer {
+      padding: 20px;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 16px;
+    }
+
+    .panel-subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .shortcut {
+      color: var(--dim);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
+      padding: 17px;
+      color: var(--ink);
+      background: #0e161f;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      outline: none;
+      resize: vertical;
+      font-size: 14px;
+      line-height: 1.65;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    textarea:focus {
+      border-color: rgba(85, 214, 190, .7);
+      box-shadow: 0 0 0 3px var(--teal-soft);
+    }
+
+    textarea::placeholder {
+      color: #607084;
+    }
+
+    .composer-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .char-count {
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    .primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 16px;
+      color: #071411;
+      background: var(--teal);
+      border: 0;
+      border-radius: 9px;
+      font-weight: 700;
+      transition: transform .2s, background .2s;
+    }
+
+    .primary:hover {
+      background: #78e6d2;
+      transform: translateY(-1px);
+    }
+
+    .primary:disabled {
+      cursor: wait;
+      opacity: .6;
+      transform: none;
+    }
+
+    .arrow {
+      font-size: 17px;
+      line-height: 0;
+    }
+
+    .examples {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .example {
+      padding: 7px 10px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      font-size: 11px;
+    }
+
+    .example:hover {
+      color: var(--ink);
+      border-color: rgba(85, 214, 190, .5);
+    }
+
+    .mini-badge {
+      padding: 3px 6px;
+      border-radius: 5px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .6px;
+    }
+
+    .mini-badge.ALLOW {
+      color: var(--teal);
+      background: var(--teal-soft);
+    }
+
+    .mini-badge.REVIEW {
+      color: var(--amber);
+      background: rgba(244, 184, 96, .12);
+    }
+
+    .mini-badge.BLOCK {
+      color: var(--red);
+      background: rgba(255, 116, 108, .12);
+    }
+
+    .empty {
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    #result {
+      grid-column: 1 / -1;
+    }
+
+    .result-panel {
+      padding: 22px;
+      animation: rise .35s ease both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-bottom: 19px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .result-kicker {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+
+    .decision {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 5px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .decision.ALLOW {
+      color: var(--teal);
+    }
+
+    .decision.REVIEW {
+      color: var(--amber);
+    }
+
+    .decision.BLOCK {
+      color: var(--red);
+    }
+
+    .decision-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 0 0 0 4px rgba(85, 214, 190, .1);
+    }
+
+    .interpretation {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 19px;
+      padding: 14px;
+      background: rgba(255, 255, 255, .025);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    .interpretation-item {
+      min-width: 0;
+    }
+
+    .interpretation-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .interpretation-value {
+      overflow: hidden;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .interpretation-value.safe {
+      color: var(--teal);
+    }
+
+    .analysis-note {
+      color: var(--dim);
+      font-size: 10px;
+    }
+
+    .score-ring {
+      display: grid;
+      place-items: center;
+      width: 82px;
+      height: 82px;
+      border: 1px solid var(--teal);
+      border-radius: 50%;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 20px;
+      box-shadow: inset 0 0 22px rgba(85, 214, 190, .1);
+    }
+
+    .score-ring span {
+      display: block;
+      margin-top: -3px;
+      color: var(--dim);
+      font-family: "DM Sans", sans-serif;
+      font-size: 9px;
+      text-align: center;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding-top: 19px;
+    }
+
+    .detail {
+      min-width: 0;
+    }
+
+    .detail-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .detail-value {
+      overflow: hidden;
+      margin-top: 5px;
+      color: var(--ink);
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bars {
+      display: grid;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 125px 1fr 42px;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .bar-track {
+      height: 6px;
+      overflow: hidden;
+      background: #25313e;
+      border-radius: 99px;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--teal);
+      border-radius: inherit;
+    }
+
+    .error {
+      padding: 14px;
+      color: #ffaaa4;
+      background: rgba(255, 116, 108, .1);
+      border: 1px solid rgba(255, 116, 108, .22);
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    .footer {
+      margin-top: 32px;
+      color: var(--dim);
+      font-size: 11px;
+    }
+
+    @media (max-width:800px) {
+      .shell {
+        padding: 22px 17px 42px;
+      }
+
+      .topbar {
+        margin-bottom: 34px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      #result {
+        grid-column: auto;
+      }
+
+      .detail-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .interpretation {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width:500px) {
+
+      .brand-note,
+      .shortcut {
+        display: none;
+      }
+
+      h1 {
+        font-size: 42px;
+        letter-spacing: -2px;
+      }
+
+      .lede {
+        font-size: 14px;
+      }
+
+      .composer-foot {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .primary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .result-top {
+        align-items: flex-start;
+      }
+
+      .score-ring {
+        width: 70px;
+        height: 70px;
+        font-size: 17px;
+      }
+
+      .bar-row {
+        grid-template-columns: 105px 1fr 35px;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <main class="shell">
-    <header class="topbar"><div class="brand"><div class="brand-mark">S</div><div><div class="brand-name">Semantic DLP</div><div class="brand-note">protected data gateway</div></div></div></header>
-    <section class="intro"><p class="eyebrow">Leakage intelligence / 01</p><h1>Catch what looks harmless.</h1><p class="lede">Screen generated text against your protected finance vault with semantic, factual, and LLM-powered signals.</p></section>
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">S</div>
+        <div>
+          <div class="brand-name">Semantic DLP</div>
+          <div class="brand-note">protected data gateway</div>
+        </div>
+      </div>
+    </header>
+    <section class="intro">
+      <p class="eyebrow">Leakage intelligence / 01</p>
+      <h1>Catch what looks harmless.</h1>
+      <p class="lede">Screen generated text against your protected finance vault with semantic, factual, and LLM-powered
+        signals.</p>
+    </section>
     <section class="layout">
-      <section class="panel composer"><div class="panel-head"><div><h2 class="panel-title">Inspect candidate output</h2><p class="panel-subtitle">Paste the text an agent is about to release.</p></div><span class="shortcut">Cmd + Enter to scan</span></div><textarea id="inputText" maxlength="10000" placeholder="Paste an AI response, memo, or generated summary here..."></textarea><div class="composer-foot"><span class="char-count"><span id="charCount">0</span> / 10,000 characters</span><button class="primary" id="checkBtn" onclick="checkText()">Run inspection <span class="arrow">-&gt;</span></button></div><div class="examples"><button class="example" onclick="useExample(0)">Try a clean sample</button><button class="example" onclick="useExample(1)">Try a finance disclosure</button></div></section>
+      <section class="panel composer">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Inspect candidate output</h2>
+            <p class="panel-subtitle">Paste the text an agent is about to release.</p>
+          </div><span class="shortcut">Cmd + Enter to scan</span>
+        </div><textarea id="inputText" maxlength="10000"
+          placeholder="Paste an AI response, memo, or generated summary here..."></textarea>
+        <div class="composer-foot"><span class="char-count"><span id="charCount">0</span> / 10,000
+            characters</span><button class="primary" id="checkBtn" onclick="checkText()">Run inspection <span
+              class="arrow">-&gt;</span></button></div>
+        <div class="examples">
+          <button class="example" onclick="useExample(0)">Try a clean sample</button>
+          <button class="example" onclick="useExample(1)">Try a borderline case</button>
+          <button class="example" onclick="useExample(2)">Try a clear leak</button>
+        </div>
+      </section>
       <div id="result"></div>
     </section>
     <div class="footer">Three signals. One decision. Built for the moment before release.</div>
   </main>
   <script>
     const examples = [
-  "The team meeting is scheduled for Thursday afternoon. Please send the agenda to everyone before noon.",
-  "The acquisition is expected to close at a valuation of around 550 million, with an announcement planned for mid-November."
-];
+      "The team meeting is scheduled for Thursday afternoon. Please send the agenda to everyone before noon.",
+      "The acquisition is expected to close at a valuation of around 550 million, with an announcement planned for mid-November.",
+      "Project Falcon's acquisition of Veltro is expected to close around $105 million, with the board citing supply chain consolidation as the main driver, ahead of a mid-November announcement."
+    ];
     const input = document.getElementById("inputText"); input.addEventListener("input", () => { document.getElementById("charCount").textContent = input.value.length.toLocaleString(); }); input.addEventListener("keydown", event => { if ((event.metaKey || event.ctrlKey) && event.key === "Enter") checkText(); });
     function useExample(index) { input.value = examples[index]; input.dispatchEvent(new Event("input")); input.focus(); }
-    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[char])); }
+    function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#039;" }[char])); }
     function scorePercent(value) { return Math.round((Number(value) || 0) * 100); }
-    function renderBars(top) { return [["Semantic similarity",top.similarity_score],["Fact match",top.fact_match_score],["LLM judgment",top.llm_leak_score]].map(([label,value]) => `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${scorePercent(value)}%"></div></div><span>${Number(value).toFixed(2)}</span></div>`).join(""); }
+    function renderBars(top) { return [["Semantic similarity", top.similarity_score], ["Fact match", top.fact_match_score], ["LLM judgment", top.llm_leak_score]].map(([label, value]) => `<div class="bar-row"><span>${label}</span><div class="bar-track"><div class="bar-fill" style="width:${scorePercent(value)}%"></div></div><span>${Number(value).toFixed(2)}</span></div>`).join(""); }
     async function checkText() {
-  const text = input.value.trim();
-  const resultDiv = document.getElementById("result");
-  const btn = document.getElementById("checkBtn");
-  if (!text) {
-    resultDiv.innerHTML = '<div class="error">Add some candidate text before running an inspection.</div>';
-    return;
-  }
-  btn.disabled = true;
-  btn.innerHTML = 'Inspecting <span class="arrow">...</span>';
-  resultDiv.innerHTML = "";
-  try {
-    const resp = await fetch("/score", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text })
-    });
-    const data = await resp.json();
-    if (!resp.ok) throw new Error(data.error || "Inspection failed");
-    const top = data.top_match;
-    const protectedDetected = data.decision !== "ALLOW";
-    const fields = top.matched_fields.length
-      ? top.matched_fields.map(field => `<span class="mini-badge ${escapeHtml(data.decision)}">${escapeHtml(field)}</span>`).join(" ")
-      : '<span class="empty">No protected fields matched</span>';
-    resultDiv.innerHTML = `<section class="panel result-panel"><div class="result-top"><div><div class="result-kicker">Inspection complete</div><div class="decision ${escapeHtml(data.decision)}"><span class="decision-dot"></span>${escapeHtml(data.decision)}</div><div class="panel-subtitle">Semantic nearest-neighbor reference, not a leak verdict</div></div><div class="score-ring">${Number(data.overall_risk_score).toFixed(2)}<span>risk score</span></div></div><div class="interpretation"><div class="interpretation-item"><div class="interpretation-label">Decision</div><div class="interpretation-value ${escapeHtml(data.decision)}">${escapeHtml(data.decision)}</div></div><div class="interpretation-item"><div class="interpretation-label">Risk</div><div class="interpretation-value">${Number(data.overall_risk_score).toFixed(2)}</div></div><div class="interpretation-item"><div class="interpretation-label">Protected data detected</div><div class="interpretation-value ${protectedDetected ? "" : "safe"}">${protectedDetected ? "Yes" : "No"}</div></div></div><div class="analysis-note">Closest semantic document: ${escapeHtml(top.doc_id)} (for analysis only)</div><div class="detail-grid"><div class="detail"><div class="detail-label">Document</div><div class="detail-value" title="${escapeHtml(top.doc_id)}">${escapeHtml(top.doc_id)}</div></div><div class="detail"><div class="detail-label">Entity</div><div class="detail-value">${escapeHtml(top.entity_name)}</div></div><div class="detail"><div class="detail-label">Matched fields</div><div class="detail-value">${fields}</div></div><div class="detail"><div class="detail-label">Decision threshold</div><div class="detail-value">${data.decision === "BLOCK" ? "High risk" : data.decision === "REVIEW" ? "Needs review" : "Below review"}</div></div></div><div class="bars">${renderBars(top)}</div></section>`;
-  } catch (error) {
-    resultDiv.innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`;
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = 'Run inspection <span class="arrow">-&gt;</span>';
-  }
-}
+      const text = input.value.trim();
+      const resultDiv = document.getElementById("result");
+      const btn = document.getElementById("checkBtn");
+      if (!text) {
+        resultDiv.innerHTML = '<div class="error">Add some candidate text before running an inspection.</div>';
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = 'Inspecting <span class="arrow">...</span>';
+      resultDiv.innerHTML = "";
+      try {
+        const resp = await fetch("/score", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text })
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || "Inspection failed");
+        const top = data.top_match;
+        const protectedDetected = data.decision !== "ALLOW";
+        const fields = top.matched_fields.length
+          ? top.matched_fields.map(field => `<span class="mini-badge ${escapeHtml(data.decision)}">${escapeHtml(field)}</span>`).join(" ")
+          : '<span class="empty">No protected fields matched</span>';
+        resultDiv.innerHTML = `<section class="panel result-panel"><div class="result-top"><div><div class="result-kicker">Inspection complete</div><div class="decision ${escapeHtml(data.decision)}"><span class="decision-dot"></span>${escapeHtml(data.decision)}</div><div class="panel-subtitle">Semantic nearest-neighbor reference, not a leak verdict</div></div><div class="score-ring">${Number(data.overall_risk_score).toFixed(2)}<span>risk score</span></div></div><div class="interpretation"><div class="interpretation-item"><div class="interpretation-label">Decision</div><div class="interpretation-value ${escapeHtml(data.decision)}">${escapeHtml(data.decision)}</div></div><div class="interpretation-item"><div class="interpretation-label">Risk</div><div class="interpretation-value">${Number(data.overall_risk_score).toFixed(2)}</div></div><div class="interpretation-item"><div class="interpretation-label">Protected data detected</div><div class="interpretation-value ${protectedDetected ? "" : "safe"}">${protectedDetected ? "Yes" : "No"}</div></div></div><div class="analysis-note">Closest semantic document: ${escapeHtml(top.doc_id)} (for analysis only)</div><div class="detail-grid"><div class="detail"><div class="detail-label">Document</div><div class="detail-value" title="${escapeHtml(top.doc_id)}">${escapeHtml(top.doc_id)}</div></div><div class="detail"><div class="detail-label">Entity</div><div class="detail-value">${escapeHtml(top.entity_name)}</div></div><div class="detail"><div class="detail-label">Matched fields</div><div class="detail-value">${fields}</div></div><div class="detail"><div class="detail-label">Decision threshold</div><div class="detail-value">${data.decision === "BLOCK" ? "High risk" : data.decision === "REVIEW" ? "Needs review" : "Below review"}</div></div></div><div class="bars">${renderBars(top)}</div></section>`;
+      } catch (error) {
+        resultDiv.innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Run inspection <span class="arrow">-&gt;</span>';
+      }
+    }
   </script>
 </body>
+
 </html>
